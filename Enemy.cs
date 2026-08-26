@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Numerics;
 namespace Dinozavrik
 {
     public class Enemy
@@ -14,6 +14,7 @@ namespace Dinozavrik
         public readonly float speed = 10;
         public readonly int type;
         public float posX = (Raylib.GetScreenWidth());
+      
         public Enemy(int t)
         {
             type = t;
@@ -38,12 +39,16 @@ namespace Dinozavrik
         public void Show()
         {
             
-            Raylib.DrawRectangle((int)posX+width, Raylib.GetScreenHeight()-100-height,
-                width, height, Color.Black);
+            Raylib.DrawRectangleRec(GetRectangleCollision(), Color.Black);
         }
 
-      
-            
-        
+        public Rectangle GetRectangleCollision() => new Rectangle(
+            posX + width, 
+            Raylib.GetScreenHeight() - 100 - height,
+            new Vector2(width,height));
+
+
+
+
     }
 }

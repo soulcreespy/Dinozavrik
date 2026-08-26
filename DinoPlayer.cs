@@ -16,17 +16,17 @@ namespace Dinozavrik
         private const float gravity = 0.6f;    // Меньше гравитация = медленнее падает
         private const float jumpForce = 12.0f;  // Больше сила = выше прыгает
         public const int size = 20;
-       
+        
 
         public void Show()=>
         
-            Raylib.DrawRectangle(posX, Raylib.GetScreenHeight() -100 - (int)(posY + size * 2),
-                                                            size, size * 2, Color.Black);
-           //                    50    400-100-(0+20*2)
-
+            Raylib.DrawRectangleRec(GetRectangleCollision(), Color.Black);
+        //                    50    400-100-(0+20*2)
+        
         public void InfoShow()
         {
-            Raylib.DrawText((Raylib.GetScreenHeight() - 100 - (int)(posY + size * 2)).ToString(),600,150,40,Color.Black);
+           
+            Raylib.DrawText(GetRectangleCollision().Y.ToString(),600,100,40,Color.Black);
         }
 
         public void Move(float dt)
@@ -47,7 +47,9 @@ namespace Dinozavrik
             }
         }
 
-        public Vector2 GetRectangleCollision() => new Vector2(posX, Raylib.GetScreenHeight() - 100 - (int)(posY + size * 2));
+        public Rectangle GetRectangleCollision() => new Rectangle(posX, 
+            Raylib.GetScreenHeight() - 100 - (posY + size * 2),
+            new Vector2(size,size*2));
     
     }
 }
