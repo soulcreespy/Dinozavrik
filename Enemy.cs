@@ -1,11 +1,6 @@
 ﻿using Raylib_cs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Numerics;
-using System.Globalization;
+
 namespace Dinozavrik
 {
     public class Enemy
@@ -38,16 +33,11 @@ namespace Dinozavrik
         }
 
         public void Show()=>
-            Raylib.DrawRectangleRec(GetRectangleCollision(), Color.Black);
+            Raylib.DrawRectangleRec(GetRectangleCollision(), Color.DarkGreen);
         
-
         public Rectangle GetRectangleCollision() => new Rectangle(
-            posX + width, 
+            posX+width, 
             Raylib.GetScreenHeight() - 100 - height,
             new Vector2(width,height));
-
-
-
-
     }
 }

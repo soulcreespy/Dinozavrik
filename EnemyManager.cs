@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Intrinsics.X86;
-using System.Text;
-using System.Threading.Tasks;
-using Raylib_cs;
+﻿using Raylib_cs;
 namespace Dinozavrik
 {
     public  class EnemyManager
@@ -12,40 +6,58 @@ namespace Dinozavrik
         public double timer = 2;
         public Random rnd=new Random();
         public List<Enemy>Enemies=new List<Enemy>();
-        public int GOLD = 0;
-        public double timeGold = 2;
-
-        
-
+        public int BestGold {  get; private set; }
+        public int Gold { get; private set; }
+        public double timeGold = 2; 
         public void SpawnEnemies(float dt)
         {
-            timeGold-=dt;
+
+            timeGold -= dt;
             if (timeGold <= 0)
             {
-                GOLD++;
+                Gold++;
                 timeGold = 2;
             }
-            timer -= dt;
-            if (timer <= 0&&GOLD>50)
+            if (Gold > 50)
             {
-                CreateEnemy();
-                timer = rnd.Next(40,60);
+                timer -= dt;
+                if (timer <= 0)
+                {
+                    CreateEnemy();
+                    timer = rnd.Next(30, 60);
+                }
             }
         }
-
+        public void Reset()
+        {
+            if (Gold > BestGold) BestGold = Gold;
+            Enemies.Clear();
+            Gold = 0;
+            timer = 2;
+            timeGold = 2;
+        }
         public void UpdateEnemies(float dt)
         {
-            if (GOLD >50)
+            if (Gold >50)
             {
                 Enemy enemy;
-                for (int i = 0; i < Enemies.Count; i++)
+                for (int i = Enemies.Count - 1; i >= 0; i--)
                 {
                     enemy = Enemies[i];
                     enemy.Move(dt);
-                    enemy.Show();
+                    
                     if (enemy.posX + enemy.width * 2 <= 0) Enemies.Remove(enemy);
                 }
             }
+        }
+       
+        public void ShowEnemies()
+        {
+            if(Gold>50)
+                foreach (Enemy enemy in Enemies)
+            
+                    enemy.Show();
+            
         }
 
         public void CreateEnemy()
@@ -53,6 +65,16 @@ namespace Dinozavrik
             int type = rnd.Next(0, 2);
             Enemy enemy = new Enemy(type);
             Enemies.Add(enemy);
+        }
+
+        public bool IsPlayerColliding(DinoPlayer player)
+        {
+            foreach (var enemy in Enemies)
+            {
+                if (Raylib.CheckCollisionRecs(enemy.GetRectangleCollision(),
+                    player.GetRectangleCollision()))return true;
+            }
+            return false;
         }
     }
 }

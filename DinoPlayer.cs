@@ -1,10 +1,6 @@
 ﻿using Raylib_cs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dinozavrik
 {
@@ -20,14 +16,10 @@ namespace Dinozavrik
 
         public void Show()=>
         
-            Raylib.DrawRectangleRec(GetRectangleCollision(), Color.Black);
+            Raylib.DrawRectangleRec(GetRectangleCollision(), Config.ColorPlayer);
         //                    50    400-100-(0+20*2)
+        public void Reset()=>posY = 0;
         
-        public void InfoShow()
-        {
-           
-            Raylib.DrawText(GetRectangleCollision().Y.ToString(),600,100,40,Color.Black);
-        }
 
         public void Move(float dt)
         {
@@ -46,7 +38,7 @@ namespace Dinozavrik
                 velY = 0;
             }
         }
-
+        
         public Rectangle GetRectangleCollision() => new Rectangle(posX, 
             Raylib.GetScreenHeight() - 100 - (posY + size * 2),
             new Vector2(size,size*2));
