@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Numerics;
+using System.Globalization;
 namespace Dinozavrik
 {
     public class Enemy
@@ -36,11 +37,9 @@ namespace Dinozavrik
             posX -= speed*dt;
         }
 
-        public void Show()
-        {
-            
+        public void Show()=>
             Raylib.DrawRectangleRec(GetRectangleCollision(), Color.Black);
-        }
+        
 
         public Rectangle GetRectangleCollision() => new Rectangle(
             posX + width, 
