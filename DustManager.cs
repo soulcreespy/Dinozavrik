@@ -21,7 +21,7 @@ namespace Dinozavrik
                     position = new Vector2(rnd.Next(ScreenWidth, ScreenWidth + 20),
                     rnd.Next(320, 380)),
 
-                    speed = new Vector2(rnd.Next(5, 20), 0),
+                    speed = new Vector2(rnd.Next(5, 10), 0),
                     size = rnd.Next(2, Config.SizePixel)
                 };
             }

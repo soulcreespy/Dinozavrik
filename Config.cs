@@ -1,12 +1,10 @@
-﻿
-
-using Raylib_cs;
+﻿using Raylib_cs;
 
 namespace Dinozavrik
 {
     public static class Config
     {
-        public static int CountSandPixel = 50;
+        public static int CountSandPixel = 80;
         public static int SizePixel = 6;
         public static int ScreenWidth = 800;
         public static int ScreenHeight = 400;

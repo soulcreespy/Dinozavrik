@@ -11,7 +11,7 @@ namespace Dinozavrik {
         {
             int ScreenHeight = Config.ScreenHeight;
             int ScreenWidth = Config.ScreenWidth;
-            Raylib.InitWindow(ScreenWidth, ScreenHeight, "Hello World");
+            Raylib.InitWindow(ScreenWidth, ScreenHeight, "Dinozavrik");
             Random rnd=new Random();
             DinoPlayer player=new DinoPlayer(); 
             EnemyManager manager = new EnemyManager();
