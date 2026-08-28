@@ -6,7 +6,6 @@ namespace Dinozavrik
         public double timer = 2;
         public Random rnd=new Random();
         public List<Enemy>Enemies=new List<Enemy>();
-        public int BestGold {  get; private set; }
         public int Gold { get; private set; }
         public double timeGold = 2; 
         public void SpawnEnemies(float dt)
@@ -30,7 +29,6 @@ namespace Dinozavrik
         }
         public void Reset()
         {
-            if (Gold > BestGold) BestGold = Gold;
             Enemies.Clear();
             Gold = 0;
             timer = 2;
@@ -46,7 +44,7 @@ namespace Dinozavrik
                     enemy = Enemies[i];
                     enemy.Move(dt);
                     
-                    if (enemy.posX + enemy.width * 2 <= 0) Enemies.Remove(enemy);
+                    if (enemy.posX + enemy.width * 2 <= 0) Enemies.RemoveAt(i);
                 }
             }
         }

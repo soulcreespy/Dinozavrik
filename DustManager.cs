@@ -18,13 +18,14 @@ namespace Dinozavrik
             {
                 dust[i] = new SandPixel
                 {
-                    position = new Vector2(rnd.Next(ScreenWidth, ScreenWidth + 20),
-                    rnd.Next(320, 380)),
+                    position = new Vector2(800,
+                    rnd.Next(0, 250)),
 
-                    speed = new Vector2(rnd.Next(5, 10), 0),
+                    speed = new Vector2(rnd.Next(5, 15), 0),
                     size = rnd.Next(2, Config.SizePixel)
                 };
             }
+           
         }
 
         public void Update(float dt)
@@ -35,7 +36,7 @@ namespace Dinozavrik
                 if (dust[i].position.X + dust[i].size <= 0)
                 {
                     dust[i].position.X = ScreenWidth + rnd.Next(0, 21);
-                    dust[i].position.Y = rnd.Next(320, 380);
+                    dust[i].position.Y = rnd.Next(0, 250);
                 }
             }
         }

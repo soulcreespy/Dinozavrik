@@ -4,7 +4,7 @@ namespace Dinozavrik
 {
     public static class Config
     {
-        public static int CountSandPixel = 80;
+        public static int CountSandPixel = 100;
         public static int SizePixel = 6;
         public static int ScreenWidth = 800;
         public static int ScreenHeight = 400;
@@ -12,5 +12,6 @@ namespace Dinozavrik
         public static Color ColorSandPixel = new Color(238, 218, 170);
         public static Color ColorBackGround = new Color(0, 122, 208);
         public static Color UnderPlayerZone = new Color(203, 163, 47);
+      
     }
 }
