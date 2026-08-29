@@ -23,18 +23,12 @@ namespace Dinozavrik
             {
                 
                 var dt = Raylib.GetFrameTime() * 50;
-                //if (start)
-                //{
-                //    paused = true;
-                //    Raylib.DrawText("Jump to start game", (int)(ScreenWidth / 2.85),
-                //    ScreenHeight / 4, 40, Color.Brown);
-                //}
-                //Raylib.IsKeyDown(KeyboardKey.Space)
+                
                 if (Raylib.IsKeyPressed(KeyboardKey.T)) Stop();
                 if (gameover && Raylib.IsKeyPressed(KeyboardKey.R))//Рестарт игры
                 {
-                    if(saveManager.BestGold<manager.Gold)
-                        saveManager.SaveResult(manager.Gold);
+                  
+                    saveManager.SaveResult(manager.Gold);
                     manager.Reset();
                     player.Reset();
                     gameover = false;
@@ -74,6 +68,7 @@ namespace Dinozavrik
                 Raylib.EndDrawing();
             }
             Raylib.CloseWindow();
+            saveManager.SaveResult(manager.Gold);
         }
         public static void Stop() => paused = !paused;
     }
