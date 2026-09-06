@@ -1,13 +1,30 @@
-﻿using Raylib_cs;
+﻿using Dinozavrik.Interfaces;
+using Raylib_cs;
 namespace Dinozavrik
 {
-    public  class EnemyManager
+    public  class EnemyManager:IDrawable,IUpdate,IShowCollision
     {
         public double timer = 2;
         public Random rnd=new Random();
         public List<Enemy>Enemies=new List<Enemy>();
         public int Gold { get; private set; }
         public double timeGold = 2; 
+        public void Update(float dt)
+        {
+            SpawnEnemies(dt);
+            UpdateEnemies(dt);
+        }
+
+        public void Draw()
+        {
+            ShowEnemies();
+        }
+        public void ShowCollision()
+        {
+            foreach(Enemy enemy in Enemies) 
+                Raylib.DrawRectangle((int)enemy.posX, enemy.posY, enemy.width, enemy.height, Color.White);
+        }
+        
         public void SpawnEnemies(float dt)
         {
 
@@ -42,7 +59,7 @@ namespace Dinozavrik
                 for (int i = Enemies.Count - 1; i >= 0; i--)
                 {
                     enemy = Enemies[i];
-                    enemy.Move(dt);
+                    enemy.Update(dt);
                     
                     if (enemy.posX + enemy.width * 2 <= 0) Enemies.RemoveAt(i);
                 }

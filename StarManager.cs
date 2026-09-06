@@ -1,51 +1,52 @@
 ﻿using System.Numerics;
+using Dinozavrik.Interfaces;
 using Raylib_cs;
 namespace Dinozavrik
 {
-    public  class DustManager
+    public  class StarManager:IDrawable,IUpdate
     {
-        public SandPixel[] dust;
+        public Star[] starfall;
         public Random rnd=new Random();
-        public DustManager()
+        public StarManager()
         {
-            dust=new SandPixel[Config.CountSandPixel];
-            CreateSand();
+            starfall=new Star[Config.CountSandPixel];
+            CreateStar();
         }
         public int ScreenWidth = Config.ScreenWidth;
-        public void CreateSand()
+        public void CreateStar()
         {
             for(int i = 0; i < Config.CountSandPixel; i++)
             {
-                dust[i] = new SandPixel
+                starfall[i] = new Star
                 {
-                    position = new Vector2(800,
-                    rnd.Next(0, 250)),
+                    position = new Vector2(rnd.Next(0,ScreenWidth),
+                    rnd.Next(0, Config.ScreenHeight/4)),
 
-                    speed = new Vector2(rnd.Next(5, 15), 0),
+                    speed = new Vector2(rnd.Next(1,4), 0),
                     size = rnd.Next(2, Config.SizePixel)
                 };
             }
-           
+            
         }
 
         public void Update(float dt)
         {
             for (int i = 0; i < Config.CountSandPixel; i++)
             {
-                dust[i].position.X -= dust[i].speed.X*dt;
-                if (dust[i].position.X + dust[i].size <= 0)
+                starfall[i].position.X -= starfall[i].speed.X*dt;
+                if (starfall[i].position.X + starfall[i].size <= 0)
                 {
-                    dust[i].position.X = ScreenWidth + rnd.Next(0, 21);
-                    dust[i].position.Y = rnd.Next(0, 250);
+                    starfall[i].position.X = ScreenWidth + rnd.Next(0, 21);
+                    starfall[i].position.Y = rnd.Next(0, Config.ScreenHeight/4);
                 }
             }
         }
 
-        public void Show()
+        public void Draw()
         {
             for(int i = 0; i < Config.CountSandPixel; i++)
             {
-                SandPixel pixel=dust[i];
+                Star pixel=starfall[i];
                 Raylib.DrawRectangle((int)pixel.position.X,
                 (int)pixel.position.Y,
                 pixel.size,
@@ -56,7 +57,7 @@ namespace Dinozavrik
 
 
     }
-    public struct SandPixel
+    public struct Star
     {
         public Vector2 position;
         public Vector2 speed;
