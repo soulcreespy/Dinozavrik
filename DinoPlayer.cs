@@ -10,8 +10,8 @@ namespace Dinozavrik
 
         
         private float posY = 0;
-        
-        private const int posX = 50;
+       
+        private const float posX = 50;
         private  float velY=0; // Текущая скорость
         private const float gravity = 0.6f;    // Меньше гравитация = медленнее падает
         private const float jumpForce = 12.0f;  // Больше сила = выше прыгает
@@ -23,7 +23,7 @@ namespace Dinozavrik
         float FrameTime = 0.0f;
         const float updateTime = 0.2f;
         public Rectangle dinoRec;
-
+        private bool jumpRequested = false;
         public DinoPlayer(string path)
         {
             Image ex = Raylib.LoadImage(path);
@@ -45,13 +45,26 @@ namespace Dinozavrik
             
         
         //                    50    400-100-(0+20*2)
+  
         public void Reset()=>posY = 0;
-        
+        public int PosX()=>(int)posX;
         public void ShowCollision()=>
              Raylib.DrawRectangleRec(GetRectangleCollision(), Config.ColorPlayer);
-        
+        public void SubscribeToJump(EnemyManager enemyManager)=>enemyManager.JumpPosted += TryJump;
+        public void UnSubscribeToJump(EnemyManager enemyManager)=>enemyManager.JumpPosted-= TryJump;
+
+        private void TryJump()
+        {
+           
+            if (posY <=0)
+            {
+                jumpRequested = true;
+             
+            }
+        }
         public void Update(float dt)
         {
+           
             FrameTime += dt;
             if (FrameTime > updateTime&&posY<=0)
             {
@@ -61,10 +74,17 @@ namespace Dinozavrik
                 dinoRec.X = currentFrame * WidthFrame;
 
             }
+
+            if ( Raylib.IsKeyDown(KeyboardKey.Space) && posY <= 0)
+                velY= jumpForce;
+
             
-            if (Raylib.IsKeyDown(KeyboardKey.Space) && posY <= 0)
-                velY = jumpForce;
-            if (Raylib.IsKeyReleased(KeyboardKey.Space) && velY > 0)
+            if (jumpRequested && posY <= 0)
+            {
+                velY = jumpForce-2;
+                jumpRequested = false;
+            }
+                if (Raylib.IsKeyReleased(KeyboardKey.Space) && velY > 0)
                 velY /= 2;
             velY -= gravity * dt;
             posY += velY * dt;

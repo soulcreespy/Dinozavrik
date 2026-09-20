@@ -15,7 +15,6 @@ namespace Dinozavrik
         public int posY;
         public void LoadTexture(int width,int height)
         {
-           
             Image image = Raylib.LoadImage(Path.Combine("assets", "enemy.png"));
             
             Raylib.ImageResize(ref image, width, height);
@@ -48,9 +47,14 @@ namespace Dinozavrik
         {
             posX -= speed*dt;
         }
+        public void ShowPosX()=>
+        
+           Raylib.DrawText($"X:{(int)posX}", (int)posX, (int)(posY - 100), 40, Color.Red);
+            
+        
 
-        public void Show()=>
-            Raylib.DrawTexture(texture,(int)posX, posY,Color.White);
+        public void Show()=> Raylib.DrawTexture(texture,(int)posX, posY,Color.White);
+        
         public void ShowCollision()=>Raylib.DrawRectangle((int)posX,posY,width,height,Color.White);
         
         public Rectangle GetRectangleCollision() => new Rectangle(

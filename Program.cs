@@ -12,22 +12,26 @@ namespace Dinozavrik
         public static bool start=false;
         public static bool showCollision = false;
         public static bool turn=false;
+        private static bool jumpEnabled=false;
         public static void Main() 
         {
             int ScreenHeight = Config.ScreenHeight;        
             int ScreenWidth = Config.ScreenWidth;
+          
             Raylib.InitWindow(ScreenWidth, ScreenHeight, "Dinozavrik"); 
             DinoPlayer player = new DinoPlayer(Path.Combine("assets","Dino2.png"));
-            EnemyManager managerEnemies = new EnemyManager();
+            EnemyManager managerEnemies = new EnemyManager(player);
             StarManager StarManager = new StarManager();
             SaveManager saveManager = new SaveManager();
             MoonManager MoonManager = new MoonManager(3,3,4);
             List<IDrawable> drawables = new() { player,StarManager,managerEnemies};
             List<IUpdate> updatables = new(){player,StarManager , managerEnemies };
             List<IShowCollision> ShowCollisions = new() { player, managerEnemies };
+            
             while (!Raylib.WindowShouldClose())
             {
-                float dt = Raylib.GetFrameTime()*50;
+
+                float dt = Raylib.GetFrameTime() * 50;
                 if (Raylib.IsKeyPressed(KeyboardKey.T)) 
                     Stop();
                 Raylib.BeginDrawing();
@@ -53,8 +57,17 @@ namespace Dinozavrik
                    
                     if (!gameover && !paused)
                     {
+                        if (Raylib.IsKeyPressed(KeyboardKey.V))
+                        {
+                            jumpEnabled = !jumpEnabled;
+                            if(jumpEnabled)player.SubscribeToJump(managerEnemies);
+                            if (!jumpEnabled)
+                            {
+                                player.UnSubscribeToJump(managerEnemies);
+                            }
+                        }
                         foreach (IUpdate obj in updatables) obj.Update(dt);
-                        
+               
                         if (managerEnemies.IsPlayerColliding(player))
                         {
                             gameover = true;

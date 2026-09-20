@@ -6,13 +6,19 @@ namespace Dinozavrik
     {
         public double timer = 2;
         public Random rnd=new Random();
-        public List<Enemy>Enemies=new List<Enemy>();
+        public List<Enemy>Enemies=new List<Enemy>(5);
+        public DinoPlayer player;
         public int Gold { get; private set; }
-        public double timeGold = 2; 
+        public double timeGold = 2;
+        public event Action JumpPosted;
+        public EnemyManager(DinoPlayer player)
+        {
+            this.player = player;
+        }
         public void Update(float dt)
         {
             SpawnEnemies(dt);
-            UpdateEnemies(dt);
+            UpdateEnemies();
         }
 
         public void Draw()
@@ -51,8 +57,9 @@ namespace Dinozavrik
             timer = 2;
             timeGold = 2;
         }
-        public void UpdateEnemies(float dt)
+        public void UpdateEnemies()
         {
+            float dt = Raylib.GetFrameTime() * 50;
             if (Gold >50)
             {
                 Enemy enemy;
@@ -62,17 +69,30 @@ namespace Dinozavrik
                     enemy.Update(dt);
                     
                     if (enemy.posX + enemy.width * 2 <= 0) Enemies.RemoveAt(i);
+                    if ((int)(enemy.posX - 200) <= player.PosX())
+                    {
+                       
+                        JumpPosted?.Invoke();
+                    }
                 }
             }
         }
-       
+        private bool showDebugText = false;
+        
         public void ShowEnemies()
         {
-            if(Gold>50)
+            if (Raylib.IsKeyPressed(KeyboardKey.F4))
+                showDebugText = !showDebugText;
+            if (Gold > 50)
                 foreach (Enemy enemy in Enemies)
-            
+                {
                     enemy.Show();
-            
+                    if(showDebugText)
+                        enemy.ShowPosX();
+                    
+                    
+                    
+                }
         }
 
         public void CreateEnemy()
